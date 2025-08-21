@@ -16,6 +16,7 @@ import PublicLayout from './components/layout/PublicLayout';
 import HomePage from './pages/Home';
 import AboutPage from './pages/About';
 import TrackParcelPage from './pages/TrackParcel';
+import ContactPage from './pages/Contact'; // Import new page
 
 function App() {
   return (
@@ -25,7 +26,7 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/track" element={<TrackParcelPage />} />
-        <Route path="/contact" element={<h1>Contact Page</h1>} />
+        <Route path="/contact" element={<ContactPage />} /> {/* Use the new component */}
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
       </Route>
@@ -40,20 +41,20 @@ function App() {
         }
       >
         <Route index element={<DashboardIndex />} />
-
+        
         {/* Role-specific homepages */}
         <Route path="admin" element={<AdminDashboard />} />
         <Route path="sender" element={<SenderDashboard />} />
         <Route path="receiver" element={<ReceiverDashboard />} />
-
+        
         {/* Sender-specific pages */}
         <Route path="my-parcels" element={<MyParcels />} />
         <Route path="create-parcel" element={<CreateParcel />} />
-
+        
         {/* Admin-specific pages */}
         <Route path="parcels" element={<AllParcels />} />
         <Route path="users" element={<ManageUsers />} />
-
+        
         {/* Receiver-specific pages */}
         <Route path="my-deliveries" element={<MyDeliveries />} />
       </Route>
