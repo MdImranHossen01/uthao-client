@@ -1,8 +1,12 @@
 import { useGetAllParcelsQuery } from "@/app/api/apiSlice";
+import Pagination from "@/components/ui/Pagination";
+import { usePagination } from "@/hooks/usePagination";
 import { TParcel } from "@/types";
 
 export default function AllParcels() {
-  const { data: parcels, isLoading, isError } = useGetAllParcelsQuery();
+  const { data: allParcels, isLoading, isError } = useGetAllParcelsQuery();
+  const { currentPage, setCurrentPage, totalPages, paginatedData: parcels } = usePagination(allParcels || []);
+
 
   if (isLoading) {
     return <div className="flex justify-center items-center h-full"><span className="loading loading-lg"></span></div>;
@@ -51,6 +55,9 @@ export default function AllParcels() {
           </tbody>
         </table>
       </div>
+      {allParcels && allParcels.length > 10 && (
+         <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
+      )}
     </div>
   );
 }

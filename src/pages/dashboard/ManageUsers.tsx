@@ -1,10 +1,13 @@
 import { useGetAllUsersQuery, useUpdateUserStatusMutation } from "@/app/api/apiSlice";
+import Pagination from "@/components/ui/Pagination";
+import { usePagination } from "@/hooks/usePagination";
 import { TUser } from "@/types";
 import toast from "react-hot-toast";
 
 export default function ManageUsers() {
-  const { data: users, isLoading, isError } = useGetAllUsersQuery();
+  const { data: allUsers, isLoading, isError } = useGetAllUsersQuery();
   const [updateUserStatus, { isLoading: isUpdating }] = useUpdateUserStatusMutation();
+  const { currentPage, setCurrentPage, totalPages, paginatedData: users } = usePagination(allUsers || []);
 
   const handleStatusUpdate = async (userId: string, currentStatus: string) => {
     const newStatus = currentStatus === 'active' ? 'blocked' : 'active';
@@ -63,6 +66,9 @@ export default function ManageUsers() {
           </tbody>
         </table>
       </div>
+      {allUsers && allUsers.length > 10 && (
+         <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
+      )}
     </div>
   );
 }
