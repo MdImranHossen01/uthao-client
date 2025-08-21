@@ -1,5 +1,5 @@
 import { LucideIcon } from "lucide-react";
-import { ReactNode } from "react";
+// No longer need ReactNode, so we remove it from the import
 
 type StatsCardProps = {
   title: string;

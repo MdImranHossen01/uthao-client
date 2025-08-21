@@ -2,12 +2,17 @@ import { useRegisterMutation } from "@/app/api/apiSlice";
 import { FormEvent, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import { TUser } from "@/types"; // Import TUser type
+
+// Define a type for our form data
+type RegisterFormData = Omit<TUser, '_id' | 'status'>;
 
 export default function Register() {
   const navigate = useNavigate();
   const [register, { isLoading }] = useRegisterMutation();
 
-  const [formData, setFormData] = useState({
+  // Use the specific type for the form state
+  const [formData, setFormData] = useState<Partial<RegisterFormData>>({
     name: '',
     email: '',
     password: '',

@@ -1,5 +1,5 @@
 import { useLazyTrackParcelByIdQuery } from "@/app/api/apiSlice";
-import { TParcel } from "@/types";
+// No longer need TParcel, so we remove it from the import
 import { FormEvent, useState } from "react";
 import toast from "react-hot-toast";
 import { Package, CheckCircle, Truck, XCircle, Clock } from 'lucide-react';
