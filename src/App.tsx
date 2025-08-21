@@ -11,15 +11,24 @@ import CreateParcel from './pages/dashboard/CreateParcel';
 import AllParcels from './pages/dashboard/AllParcels';
 import ManageUsers from './pages/dashboard/ManageUsers';
 import MyDeliveries from './pages/dashboard/MyDeliveries';
-import Register from './pages/Register'; // Import the new page
+import Register from './pages/Register';
+import PublicLayout from './components/layout/PublicLayout'; // Import new layout
+import HomePage from './pages/Home'; // Import new page
+import AboutPage from './pages/About'; // Import new page
 
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<h1>Home Page</h1>} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/register" element={<Register />} /> {/* Use the new component */}
+      {/* Public Routes */}
+      <Route element={<PublicLayout />}>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/about" element={<AboutPage />} />
+        <Route path="/contact" element={<h1>Contact Page</h1>} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+      </Route>
 
+      {/* Protected Dashboard Routes */}
       <Route
         path="/dashboard"
         element={
