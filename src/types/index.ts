@@ -7,7 +7,6 @@ export type TUser = {
   status: 'active' | 'blocked';
 };
 
-// Add StatusLog type
 export type TStatusLog = {
   status: 'pending' | 'picked-up' | 'in-transit' | 'delivered' | 'cancelled';
   timestamp: string;
@@ -25,7 +24,16 @@ export type TParcel = {
   parcelWeight: number;
   trackingId: string;
   status: 'pending' | 'picked-up' | 'in-transit' | 'delivered' | 'cancelled';
-  statusHistory: TStatusLog[]; // <-- Add this property
+  statusHistory: TStatusLog[];
   createdAt: string;
   updatedAt: string;
+};
+
+// Add this new type for API error responses
+export type TApiError = {
+  data: {
+    message: string;
+    success: boolean;
+  };
+  status: number;
 };

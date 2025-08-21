@@ -6,7 +6,6 @@ type AuthState = {
   token: string | null;
 };
 
-// Function to load state from localStorage
 const loadState = (): AuthState => {
   try {
     const serializedState = localStorage.getItem('auth');
@@ -14,7 +13,7 @@ const loadState = (): AuthState => {
       return { user: null, token: null };
     }
     return JSON.parse(serializedState);
-  } catch (err) {
+  } catch { // The unused 'err' variable is removed here
     return { user: null, token: null };
   }
 };
@@ -27,17 +26,15 @@ const authSlice = createSlice({
   reducers: {
     setCredentials: (
       state,
-      action: PayloadAction<{ user: TUser; token:string }>
+      action: PayloadAction<{ user: TUser; token: string }>
     ) => {
       state.user = action.payload.user;
       state.token = action.payload.token;
-      // Save state to localStorage
       localStorage.setItem('auth', JSON.stringify(state));
     },
     logOut: (state) => {
       state.user = null;
       state.token = null;
-      // Clear state from localStorage
       localStorage.removeItem('auth');
     },
   },

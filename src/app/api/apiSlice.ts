@@ -32,10 +32,9 @@ export const apiSlice = createApi({
         body: credentials,
       }),
       async onQueryStarted(_arg, { dispatch, queryFulfilled }) {
-        try {
-          const { data } = await queryFulfilled;
-          dispatch(setCredentials(data.data));
-        } catch (error) {}
+        // The try/catch block is removed as errors are handled in the component
+        const { data } = await queryFulfilled;
+        dispatch(setCredentials(data.data));
       },
     }),
     register: builder.mutation<TUser, Partial<TUser>>({
@@ -45,83 +44,41 @@ export const apiSlice = createApi({
         body: userInfo,
       }),
     }),
-    // Sender endpoints
     getMyParcels: builder.query<TParcel[], void>({
       query: () => '/api/parcels/my-parcels',
       transformResponse: (response: TApiResponse<TParcel[]>) => response.data,
-      providesTags: (result) =>
-        result
-          ? [
-              ...result.map(({ _id }) => ({ type: 'Parcel' as const, id: _id })),
-              { type: 'Parcel', id: 'LIST' },
-            ]
-          : [{ type: 'Parcel', id: 'LIST' }],
+      providesTags: (result) => result ? [...result.map(({ _id }) => ({ type: 'Parcel' as const, id: _id })), { type: 'Parcel', id: 'LIST' }] : [{ type: 'Parcel', id: 'LIST' }],
     }),
     createParcel: builder.mutation<TParcel, Partial<TParcel>>({
-      query: (newParcel) => ({
-        url: '/api/parcels',
-        method: 'POST',
-        body: newParcel,
-      }),
+      query: (newParcel) => ({ url: '/api/parcels', method: 'POST', body: newParcel }),
       invalidatesTags: [{ type: 'Parcel', id: 'LIST' }],
     }),
-    // Admin endpoints
     getAllUsers: builder.query<TUser[], void>({
       query: () => '/api/users',
       transformResponse: (response: TApiResponse<TUser[]>) => response.data,
-      providesTags: (result) =>
-        result
-          ? [
-              ...result.map(({ _id }) => ({ type: 'User' as const, id: _id })),
-              { type: 'User', id: 'LIST' },
-            ]
-          : [{ type: 'User', id: 'LIST' }],
+      providesTags: (result) => result ? [...result.map(({ _id }) => ({ type: 'User' as const, id: _id })), { type: 'User', id: 'LIST' }] : [{ type: 'User', id: 'LIST' }],
     }),
-    updateUserStatus: builder.mutation<
-      TUser,
-      { userId: string; status: string }
-    >({
-      query: ({ userId, status }) => ({
-        url: `/api/users/${userId}/update-status`,
-        method: 'PATCH',
-        body: { status },
-      }),
+    updateUserStatus: builder.mutation<TUser, { userId: string; status: string }>({
+      query: ({ userId, status }) => ({ url: `/api/users/${userId}/update-status`, method: 'PATCH', body: { status } }),
       invalidatesTags: [{ type: 'User', id: 'LIST' }],
     }),
     getAllParcels: builder.query<TParcel[], void>({
-      query: () => '/api/parcels/all',
-      transformResponse: (response: TApiResponse<TParcel[]>) => response.data,
-      providesTags: (result) =>
-        result
-          ? [
-              ...result.map(({ _id }) => ({ type: 'Parcel' as const, id: _id })),
-              { type: 'Parcel', id: 'LIST' },
-            ]
-          : [{ type: 'Parcel', id: 'LIST' }],
+        query: () => '/api/parcels/all',
+        transformResponse: (response: TApiResponse<TParcel[]>) => response.data,
+        providesTags: (result) => result ? [...result.map(({ _id }) => ({ type: 'Parcel' as const, id: _id })), { type: 'Parcel', id: 'LIST' }] : [{ type: 'Parcel', id: 'LIST' }],
     }),
-    // Receiver endpoints
     getMyDeliveries: builder.query<TParcel[], void>({
       query: () => '/api/parcels/my-deliveries',
       transformResponse: (response: TApiResponse<TParcel[]>) => response.data,
-      providesTags: (result) =>
-        result
-          ? [
-              ...result.map(({ _id }) => ({ type: 'Parcel' as const, id: _id })),
-              { type: 'Parcel', id: 'LIST' },
-            ]
-          : [{ type: 'Parcel', id: 'LIST' }],
+      providesTags: (result) => result ? [...result.map(({ _id }) => ({ type: 'Parcel' as const, id: _id })), { type: 'Parcel', id: 'LIST' }] : [{ type: 'Parcel', id: 'LIST' }],
     }),
     confirmDelivery: builder.mutation<TParcel, string>({
-      query: (parcelId) => ({
-        url: `/api/parcels/${parcelId}/confirm-delivery`,
-        method: 'PATCH',
-      }),
+      query: (parcelId) => ({ url: `/api/parcels/${parcelId}/confirm-delivery`, method: 'PATCH' }),
       invalidatesTags: [{ type: 'Parcel', id: 'LIST' }],
     }),
-    // Public tracking endpoint
     trackParcelById: builder.query<TParcel, string>({
-      query: (trackingId) => `/api/parcels/track/${trackingId}`,
-      transformResponse: (response: TApiResponse<TParcel>) => response.data,
+        query: (trackingId) => `/api/parcels/track/${trackingId}`,
+        transformResponse: (response: TApiResponse<TParcel>) => response.data,
     }),
   }),
 });

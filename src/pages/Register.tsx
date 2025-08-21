@@ -2,22 +2,20 @@ import { useRegisterMutation } from "@/app/api/apiSlice";
 import { FormEvent, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
-import { TUser } from "@/types"; // Import TUser type
+import { TApiError, TUser } from "@/types";
 
-// Define a type for our form data
 type RegisterFormData = Omit<TUser, '_id' | 'status'>;
 
 export default function Register() {
   const navigate = useNavigate();
   const [register, { isLoading }] = useRegisterMutation();
 
-  // Use the specific type for the form state
   const [formData, setFormData] = useState<Partial<RegisterFormData>>({
     name: '',
     email: '',
     password: '',
     phoneNumber: '',
-    role: 'sender', // Default role
+    role: 'sender',
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -31,8 +29,9 @@ export default function Register() {
       await register(formData).unwrap();
       toast.success("Registration successful! Please log in.");
       navigate("/login");
-    } catch (err: any) {
-      toast.error(err.data?.message || "Registration failed.");
+    } catch (err) {
+      const apiError = err as TApiError;
+      toast.error(apiError.data?.message || "Registration failed.");
     }
   };
 

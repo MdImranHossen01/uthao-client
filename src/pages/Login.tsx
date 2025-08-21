@@ -2,6 +2,7 @@ import { useLoginMutation } from "@/app/api/apiSlice";
 import { FormEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import { TApiError } from "@/types";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -15,8 +16,9 @@ export default function Login() {
       await login({ email, password }).unwrap();
       toast.success("Logged in successfully!");
       navigate("/dashboard");
-    } catch (err: any) {
-      toast.error(err.data?.message || "An error occurred");
+    } catch (err) {
+      const apiError = err as TApiError;
+      toast.error(apiError.data?.message || "An error occurred");
     }
   };
 
