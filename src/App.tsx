@@ -10,14 +10,15 @@ import MyParcels from './pages/dashboard/MyParcels';
 import CreateParcel from './pages/dashboard/CreateParcel';
 import AllParcels from './pages/dashboard/AllParcels';
 import ManageUsers from './pages/dashboard/ManageUsers';
-import MyDeliveries from './pages/dashboard/MyDeliveries'; // Import new page
+import MyDeliveries from './pages/dashboard/MyDeliveries';
+import Register from './pages/Register'; // Import the new page
 
 function App() {
   return (
     <Routes>
       <Route path="/" element={<h1>Home Page</h1>} />
       <Route path="/login" element={<Login />} />
-      <Route path="/register" element={<h1>Register Page</h1>} />
+      <Route path="/register" element={<Register />} /> {/* Use the new component */}
 
       <Route
         path="/dashboard"

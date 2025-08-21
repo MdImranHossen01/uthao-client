@@ -38,6 +38,14 @@ export const apiSlice = createApi({
         } catch (error) {}
       },
     }),
+    // New endpoint for registration
+    register: builder.mutation<TUser, Partial<TUser>>({
+        query: (userInfo) => ({
+            url: '/api/auth/register',
+            method: 'POST',
+            body: userInfo,
+        }),
+    }),
     // Sender endpoints
     getMyParcels: builder.query<TParcel[], void>({
       query: () => '/api/parcels/my-parcels',
@@ -113,11 +121,12 @@ export const apiSlice = createApi({
 
 export const {
   useLoginMutation,
+  useRegisterMutation, // Export new hook
   useGetMyParcelsQuery,
   useCreateParcelMutation,
   useGetAllUsersQuery,
   useUpdateUserStatusMutation,
   useGetAllParcelsQuery,
-  useGetMyDeliveriesQuery, // Export new hook
-  useConfirmDeliveryMutation, // Export new hook
+  useGetMyDeliveriesQuery,
+  useConfirmDeliveryMutation,
 } = apiSlice;
