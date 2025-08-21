@@ -9,7 +9,10 @@ export default function HomePage() {
           <div className="max-w-md">
             <h1 className="text-5xl font-bold">Fast, Reliable, Secure Delivery</h1>
             <p className="py-6">Your trusted partner for delivering parcels on time, every time. Track your package, manage your deliveries, and experience seamless logistics with Uthao.</p>
-            <Link to="/register" className="btn btn-primary">Get Started</Link>
+            <div className="flex justify-center gap-4">
+               <Link to="/register" className="btn btn-primary">Get Started</Link>
+               <Link to="/track" className="btn btn-outline">Track Parcel</Link>
+            </div>
           </div>
         </div>
       </div>

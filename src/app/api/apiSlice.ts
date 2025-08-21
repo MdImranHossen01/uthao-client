@@ -38,13 +38,12 @@ export const apiSlice = createApi({
         } catch (error) {}
       },
     }),
-    // New endpoint for registration
     register: builder.mutation<TUser, Partial<TUser>>({
-        query: (userInfo) => ({
-            url: '/api/auth/register',
-            method: 'POST',
-            body: userInfo,
-        }),
+      query: (userInfo) => ({
+        url: '/api/auth/register',
+        method: 'POST',
+        body: userInfo,
+      }),
     }),
     // Sender endpoints
     getMyParcels: builder.query<TParcel[], void>({
@@ -78,7 +77,10 @@ export const apiSlice = createApi({
             ]
           : [{ type: 'User', id: 'LIST' }],
     }),
-    updateUserStatus: builder.mutation<TUser, { userId: string; status: string }>({
+    updateUserStatus: builder.mutation<
+      TUser,
+      { userId: string; status: string }
+    >({
       query: ({ userId, status }) => ({
         url: `/api/users/${userId}/update-status`,
         method: 'PATCH',
@@ -87,9 +89,9 @@ export const apiSlice = createApi({
       invalidatesTags: [{ type: 'User', id: 'LIST' }],
     }),
     getAllParcels: builder.query<TParcel[], void>({
-        query: () => '/api/parcels/all',
-        transformResponse: (response: TApiResponse<TParcel[]>) => response.data,
-        providesTags: (result) =>
+      query: () => '/api/parcels/all',
+      transformResponse: (response: TApiResponse<TParcel[]>) => response.data,
+      providesTags: (result) =>
         result
           ? [
               ...result.map(({ _id }) => ({ type: 'Parcel' as const, id: _id })),
@@ -116,12 +118,17 @@ export const apiSlice = createApi({
       }),
       invalidatesTags: [{ type: 'Parcel', id: 'LIST' }],
     }),
+    // Public tracking endpoint
+    trackParcelById: builder.query<TParcel, string>({
+      query: (trackingId) => `/api/parcels/track/${trackingId}`,
+      transformResponse: (response: TApiResponse<TParcel>) => response.data,
+    }),
   }),
 });
 
 export const {
   useLoginMutation,
-  useRegisterMutation, // Export new hook
+  useRegisterMutation,
   useGetMyParcelsQuery,
   useCreateParcelMutation,
   useGetAllUsersQuery,
@@ -129,4 +136,5 @@ export const {
   useGetAllParcelsQuery,
   useGetMyDeliveriesQuery,
   useConfirmDeliveryMutation,
+  useLazyTrackParcelByIdQuery,
 } = apiSlice;

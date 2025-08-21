@@ -12,9 +12,10 @@ import AllParcels from './pages/dashboard/AllParcels';
 import ManageUsers from './pages/dashboard/ManageUsers';
 import MyDeliveries from './pages/dashboard/MyDeliveries';
 import Register from './pages/Register';
-import PublicLayout from './components/layout/PublicLayout'; // Import new layout
-import HomePage from './pages/Home'; // Import new page
-import AboutPage from './pages/About'; // Import new page
+import PublicLayout from './components/layout/PublicLayout';
+import HomePage from './pages/Home';
+import AboutPage from './pages/About';
+import TrackParcelPage from './pages/TrackParcel';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
       <Route element={<PublicLayout />}>
         <Route path="/" element={<HomePage />} />
         <Route path="/about" element={<AboutPage />} />
+        <Route path="/track" element={<TrackParcelPage />} />
         <Route path="/contact" element={<h1>Contact Page</h1>} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
@@ -38,20 +40,20 @@ function App() {
         }
       >
         <Route index element={<DashboardIndex />} />
-        
+
         {/* Role-specific homepages */}
         <Route path="admin" element={<AdminDashboard />} />
         <Route path="sender" element={<SenderDashboard />} />
         <Route path="receiver" element={<ReceiverDashboard />} />
-        
+
         {/* Sender-specific pages */}
         <Route path="my-parcels" element={<MyParcels />} />
         <Route path="create-parcel" element={<CreateParcel />} />
-        
+
         {/* Admin-specific pages */}
         <Route path="parcels" element={<AllParcels />} />
         <Route path="users" element={<ManageUsers />} />
-        
+
         {/* Receiver-specific pages */}
         <Route path="my-deliveries" element={<MyDeliveries />} />
       </Route>
